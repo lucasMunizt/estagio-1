@@ -1,9 +1,9 @@
 # `<NOME PROJETO>`
-
+??
 * Link do jogo:
 
 ## Motivação
-
+Quando  criança jogava o jogo fogo e água, e usei como expiração para desenvolver um jogo de plataforma.  
 DESCREVA A MOTIVAÇÃO DO PROJETO.
 
 ## Objetivo
