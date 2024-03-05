@@ -3,15 +3,16 @@
 * Link do jogo:
 
 ## Motivação
-Quando  criança jogava o jogo fogo e água, e usei como expiração para desenvolver um jogo de plataforma.  
+Quando  criança jogava o jogo "fogo e água", e usei como expiração para desenvolver um jogo de plataforma.  
 DESCREVA A MOTIVAÇÃO DO PROJETO.
 
 ## Objetivo
+Um jogo de plataforma que tem como objetivo finalizar a fase passando pelos obstáculos e coletar a maior quantidade de score. 
 
 QUAL É O OBJETIVO DO PROJETO.
-
+No final do projetor ter me desenvolvido melhor como progamador.
 ## Valor Agregado
-
+??
 QUAL É A INOVAÇÃO / QUAL É VANTAGEM / O QUE É NOVO.
 
 ## Fases
@@ -28,7 +29,7 @@ DESCREVA AS FASES DO JOGO.
 ## Esquema de Pontuação
 
 QUAL É O ESQUEMA DE PONTUAÇÃO.
-
+O jogo possuirá moedas espalhadas pela fase, e no final possuirá um ranking. 
 
 ## Requisitos
 
