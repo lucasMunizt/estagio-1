@@ -10,7 +10,7 @@ Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de 
 
 Um jogo de plataforma cujo objetivo primordial consiste em transpor os obstáculos presentes ao longo das fases, culminando na conclusão da mesma com a obtenção da pontuação mais elevada possível 
 
-QUAL É O OBJETIVO DO PROJETO.
+## QUAL É O OBJETIVO DO PROJETO.
 
 Ao término do projeto, pude aprimorar minhas habilidades como programador.
 
