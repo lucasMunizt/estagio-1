@@ -1,10 +1,10 @@
-# `<NOME PROJETO>`
-??
+# `<A Fuga>`
+
 * Link do jogo:
 
 ## Motivação
 
-Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.  
+Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.Um jogo onde um bandido tentar escapa da policia passando pelos obstáculos.   
 
 ## Objetivo
 
