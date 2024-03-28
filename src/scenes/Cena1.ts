@@ -27,7 +27,7 @@ export class Cena1 extends Phaser.Scene{
         let map = this.add.image(0,0,'sky').setOrigin(0,0);
        // map.displayWidth = 800;
         //map.displayHeight = 40;
-        this.player = this.physics.add.sprite(0,500,'guy').setCollideWorldBounds(true).setScale(2) as PlayerWithJump;;
+        this.player = this.physics.add.sprite(0,100,'guy').setCollideWorldBounds(true).setScale(2) as PlayerWithJump;;
         this.player.canjump = true;
         this.player.setFrame(1)
         this.control = this.input.keyboard.createCursorKeys();  
@@ -146,10 +146,10 @@ export class Cena1 extends Phaser.Scene{
             this.player.setVelocityX(-150);
         }else if(this.control.right.isDown){
             this.player.setVelocityX(150);
-        }else if (this.control.space.isDown && this.player.canjump ) {
-            this.player.setVelocityY(-300);
+        }else if (this.control.space.isDown && this.player.canjump && this.player.body.touching.down ) {
+            this.player.setVelocityY(-400);
             this.player.canjump = false;
-        }else if(!this.control.up.isDown && !this.player.canjump){
+        }else if(!this.control.up.isDown && !this.player.canjump && this.player.body.touching.down){
             this.player.canjump = true;
         
         }
