@@ -20,21 +20,31 @@ export class Cena1 extends Phaser.Scene{
         this.load.image('wall', './assets/character/industrialTile_25.png');
         
         
-        this.load.spritesheet('guy', './assets/character/guy.png',{frameWidth: 16, frameHeight: 25});
+        this.load.spritesheet('guy', './assets/character/guy.png',{frameWidth: 16, frameHeight: 24  }); //16 25
     }
   
     create() {
         let map = this.add.image(0,0,'sky').setOrigin(0,0);
        // map.displayWidth = 800;
         //map.displayHeight = 40;
-        this.player = this.physics.add.sprite(0,100,'guy').setCollideWorldBounds(true).setScale(2) as PlayerWithJump;;
+        this.player = this.physics.add.sprite(0,10,'guy').setCollideWorldBounds(true).setScale(2) as PlayerWithJump;
         this.player.canjump = true;
-        this.player.setFrame(1)
+        this.player.setFrame(5)
+        this.anims.create({
+            key:'walk',
+            frames: this.anims.generateFrameNumbers('guy', {
+                start:5,
+                end:6
+            }),
+            frameRate:6,
+            repeat:-1
+        })
+
         this.control = this.input.keyboard.createCursorKeys();  
         this.platforms = this.physics.add.staticGroup();
         this.ladders = this.physics.add.staticGroup();
         this.walls = this.physics.add.staticGroup();
-
+       
         // 1 plataforma superior  inicio do jogo
         this.platforms.create(0,100,'platform').setScale(2).refreshBody();
         this.platforms.create(30,100,'platform').setScale(2).refreshBody();
@@ -52,7 +62,6 @@ export class Cena1 extends Phaser.Scene{
         this.ladders.create(230,180,'ladder').setScale(1,2).refreshBody(); 
         this.ladders.create(230,230,'ladder').setScale(1,2).refreshBody(); 
 
-        
         // 2  plataforma a baixo da escada a esquerda para direita
         this.platforms.create(240,295,'platform').setScale(2).refreshBody();
         this.platforms.create(300,295,'platform').setScale(2).refreshBody();
@@ -131,8 +140,6 @@ export class Cena1 extends Phaser.Scene{
         this.ladders.create(1000,260,'ladder').setScale(1,2).refreshBody();
         this.ladders.create(1000,320,'ladder').setScale(1,2).refreshBody();
 
-
-
         // platafoma chão
         for (let i = 40; i < 1221; i+=90) {
             this.platforms.create(i,645,'platform').setScale(3).refreshBody();
@@ -143,18 +150,25 @@ export class Cena1 extends Phaser.Scene{
     
     update() {
         if (this.control.left.isDown) {
+            this.player.flipX = true;
+            this.player.anims.play('walk',true);
             this.player.setVelocityX(-150);
-        }else if(this.control.right.isDown){
+        }
+        else if(this.control.right.isDown){
+            this.player.flipX = false;
+            this.player.anims.play('walk',true);
             this.player.setVelocityX(150);
-        }else if (this.control.space.isDown && this.player.canjump && this.player.body.touching.down ) {
+        }
+        else if (this.control.space.isDown && this.player.canjump && this.player.body.touching.down ) {
             this.player.setVelocityY(-400);
             this.player.canjump = false;
-        }else if(!this.control.up.isDown && !this.player.canjump && this.player.body.touching.down){
+        }
+        else if(!this.control.up.isDown && !this.player.canjump && this.player.body.touching.down){
             this.player.canjump = true;
-        
         }
         else{
             this.player.setVelocityX(0);
+            this.player.setFrame(1)
         }
     }
   
