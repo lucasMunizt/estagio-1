@@ -14,20 +14,19 @@ export class Cena1 extends Phaser.Scene{
 
     preload() {
         this.load.image('sky', './assets/map/mapcidade.jpg');
-        //this.load.tilemapTiledJSON('map', './assets/map/map1.json');
         this.load.image('platform', './assets/character/industrialTile_81.png');
         this.load.image('ladder', './assets/character/ladder1.png');
         this.load.image('wall', './assets/character/industrialTile_25.png');
+        //this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
         
-        
-        this.load.spritesheet('guy', './assets/character/guy.png',{frameWidth: 16, frameHeight: 24  }); //16 25
+        this.load.spritesheet('guy', './assets/character/guy.png',{frameWidth: 16, frameHeight: 24}); //16 24
     }
   
     create() {
         let map = this.add.image(0,0,'sky').setOrigin(0,0);
        // map.displayWidth = 800;
         //map.displayHeight = 40;
-        this.player = this.physics.add.sprite(0,10,'guy').setCollideWorldBounds(true).setScale(2) as PlayerWithJump;
+        this.player = this.physics.add.sprite(0,10,'guy').setCollideWorldBounds(true).setScale(1.7) as PlayerWithJump;
         this.player.canjump = true;
         this.player.setFrame(5)
         this.anims.create({
