@@ -14,7 +14,7 @@ export class menu extends Phaser.Scene{
     create(){
        this.MenuMusic = this.sound.add('menuMusic');
         this.MenuMusic.play({
-            volume:1,
+            volume:0.5,
             loop:true
         });
         const menu = this.add.image(0,0,'menu').setOrigin(0,0);

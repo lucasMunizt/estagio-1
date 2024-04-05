@@ -13,10 +13,12 @@ export class Cena1 extends Phaser.Scene{
     }
 
     preload() {
-        this.load.image('sky', './assets/map/mapcidade.jpg');
+        this.load.image('sky', './maps/mapcidade.jpg');
         this.load.image('platform', './assets/character/industrialTile_81.png');
+        this.load.image('platform1', './assets/character/obj_box005.png');
         this.load.image('ladder', './assets/character/ladder1.png');
         this.load.image('wall', './assets/character/industrialTile_25.png');
+        this.load.image('muro', './assets/character/industrialTile_03.png');
         //this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
         
         this.load.spritesheet('guy', './assets/character/guy.png',{frameWidth: 16, frameHeight: 24}); //16 24
@@ -26,7 +28,7 @@ export class Cena1 extends Phaser.Scene{
         let map = this.add.image(0,0,'sky').setOrigin(0,0);
        // map.displayWidth = 800;
         //map.displayHeight = 40;
-        this.player = this.physics.add.sprite(0,10,'guy').setCollideWorldBounds(true).setScale(1.7) as PlayerWithJump;
+        this.player = this.physics.add.sprite(0,135,'guy').setCollideWorldBounds(true).setScale(1.7) as PlayerWithJump;
         this.player.canjump = true;
         this.player.setFrame(5)
         this.anims.create({
@@ -44,105 +46,105 @@ export class Cena1 extends Phaser.Scene{
         this.ladders = this.physics.add.staticGroup();
         this.walls = this.physics.add.staticGroup();
        
+    
         // 1 plataforma superior  inicio do jogo
-        this.platforms.create(0,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(30,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(60,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(90,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(152,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(210,100,'platform').setScale(2).refreshBody();
-      
+        for (let i = 17; i < 242 ; i+=32) {
+           
+            this.platforms.create(i,170,'wall').setScale().refreshBody();
+        }   
+
         // 4 unica plataforma da esquerda para direita
-        this.platforms.create(350,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(410,100,'platform').setScale(2).refreshBody();
+        this.platforms.create(350,170,'wall').setScale().refreshBody();
+        this.platforms.create(382,170,'wall').setScale().refreshBody();
       
         //1 escadas superio a esquerda para direita aumenta 50
-        this.ladders.create(230,130,'ladder').setScale(1,2).refreshBody(); 
-        this.ladders.create(230,180,'ladder').setScale(1,2).refreshBody(); 
-        this.ladders.create(230,230,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(245,250,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(245,200,'ladder').setScale(1,2).refreshBody(); 
 
         // 2  plataforma a baixo da escada a esquerda para direita
-        this.platforms.create(240,295,'platform').setScale(2).refreshBody();
-        this.platforms.create(300,295,'platform').setScale(2).refreshBody();
-        this.platforms.create(360,295,'platform').setScale(2).refreshBody();
-        
-        // 2 escadas
-        this.ladders.create(380,320,'ladder').setScale(1,2).refreshBody();
-        this.ladders.create(380,370,'ladder').setScale(1,2).refreshBody();
-        this.ladders.create(380,420,'ladder').setScale(1,2).refreshBody();
 
+        for (let i = 240; i < 432 ; i+=32) {
+          
+            this.platforms.create(i,300,'wall').setScale().refreshBody();
+        }
+   
+        // 2 escadas
+        this.ladders.create(380,328,'ladder').setScale(1,2).refreshBody();
+        this.ladders.create(380,392,'ladder').setScale(1,2).refreshBody();
+        this.ladders.create(380,420,'ladder').setScale(1,2).refreshBody();
+     
         // 3 platafoma da direita para esquerda
-        this.platforms.create(360,485,'platform').setScale(2).refreshBody();
-        this.platforms.create(310,485,'platform').setScale(2).refreshBody();
-        this.platforms.create(250,485,'platform').setScale(2).refreshBody();
+        for (let i = 215; i < 407 ; i+=32) {       
+            this.platforms.create(i,470,'wall').setScale().refreshBody();
+        }
 
         // 5 plataforma da esquerda para direita 
-        this.platforms.create(500,485,'platform').setScale(2).refreshBody();
+        this.platforms.create(500,485,'wall').setScale().refreshBody();
+        this.platforms.create(532,485,'wall').setScale().refreshBody();
          
-        //parede ligado ao chão
-        this.platforms.create(375,500,'wall').setScale(1).refreshBody();
-        this.platforms.create(375,530,'wall').setScale(1).refreshBody();
-        this.platforms.create(375,560,'wall').setScale(1).refreshBody();
-        this.platforms.create(375,585,'wall').setScale(1).refreshBody();
+        // 1 parede ligado ao chão antes platform 
+        for (let i = 500; i < 617 ; i+=32) {       
+            this.platforms.create(375,i,'muro').setScale().refreshBody();
+        }
 
         // 3 escada 
-        this.ladders.create(237,510,'ladder').setScale(1,2).refreshBody(); 
-        this.ladders.create(237,560,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(220,510,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(220,570,'ladder').setScale(1,2).refreshBody(); 
 
         // fim do jogo 1 plataforma a partir 
-        this.platforms.create(570,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(630,100,'platform').setScale(2).refreshBody();
-        this.platforms.create(693,100,'platform').setScale(2).refreshBody();
+        for (let i = 534; i < 662; i+=32) {       
+            this.platforms.create(i,120,'wall').setScale().refreshBody();
+        }
+
         
         // 2 plataforma
-        this.platforms.create(510,230,'platform').setScale(2).refreshBody();
-        this.platforms.create(570,230,'platform').setScale(2).refreshBody();
-        this.platforms.create(630,230,'platform').setScale(2).refreshBody();
+        for (let i = 650; i < 842 ; i+=32) {       
+            this.platforms.create(i,295,'wall').setScale().refreshBody();
+        }
 
         // 1 escada 
-        this.ladders.create(650,260,'ladder').setScale(1,2).refreshBody(); 
-        this.ladders.create(650,320,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(748,330,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(748,395,'ladder').setScale(1,2).refreshBody(); 
         
         // 3 plataforma
-       this.platforms.create(665,385,'platform').setScale(2).refreshBody();
-       this.platforms.create(729,385,'platform').setScale(2).refreshBody();
+       this.platforms.create(645,440,'wall').setScale().refreshBody();
+       this.platforms.create(677,440,'wall').setScale().refreshBody();
+       this.platforms.create(709,440,'wall').setScale().refreshBody();
+       this.platforms.create(741,440,'wall').setScale().refreshBody();
 
         // 2 escada
-        this.ladders.create(650,417,'ladder').setScale(1,2).refreshBody(); 
-        this.ladders.create(650,479,'ladder').setScale(1,2).refreshBody(); 
+        this.ladders.create(648,480,'ladder').setScale(1,2).refreshBody(); 
 
         // 4 plataforma
-        this.platforms.create(663,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(727,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(763,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(826,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(889,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(923,514,'platform').setScale(2).refreshBody();
-        this.platforms.create(950,514,'platform').setScale(2).refreshBody();
+        for (let i = 650; i < 950 ; i+=32) { 
+            this.platforms.create(i,530,'wall').setScale().refreshBody();
+        }
 
         // 5 plataforma
-        this.platforms.create(900,385,'platform').setScale(2).refreshBody();
-        this.platforms.create(964,385,'platform').setScale(2).refreshBody();
-        this.platforms.create(1025,385,'platform').setScale(2).refreshBody();
+        for (let i = 900; i < 1028 ; i+=32) {       
+            this.platforms.create(i,440,'wall').setScale().refreshBody();
+        }
 
         // 3 escada
-        this.ladders.create(964,415,'ladder').setScale(1,2).refreshBody();
-        this.ladders.create(964,450,'ladder').setScale(1,2).refreshBody();
+        this.ladders.create(905,480,'ladder').setScale(1,2).refreshBody();
+   
 
         // 6 plataforma
-        this.platforms.create(1015,230,'platform').setScale(2).refreshBody();
-        this.platforms.create(1072,230,'platform').setScale(2).refreshBody();
-        this.platforms.create(1136,230,'platform').setScale(2).refreshBody();
-        this.platforms.create(1200,230,'platform').setScale(2).refreshBody();
+        for (let i = 983; i < 1200 ; i+=32) {       
+            this.platforms.create(i,230,'wall').setScale().refreshBody();
+        }
 
         // 4 escada
-        this.ladders.create(1000,260,'ladder').setScale(1,2).refreshBody();
-        this.ladders.create(1000,320,'ladder').setScale(1,2).refreshBody();
+        for (let i = 250; i < 440 ; i+=32) {       
+            this.platforms.create(986,i,'ladder').setScale().refreshBody();
+        }
 
         // platafoma chão
         for (let i = 40; i < 1221; i+=90) {
             this.platforms.create(i,645,'platform').setScale(3).refreshBody();
         }
+      
+    
 
         this.physics.add.collider(this.player, this.platforms);
     }

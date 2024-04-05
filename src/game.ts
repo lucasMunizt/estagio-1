@@ -10,8 +10,8 @@ const config = {
   physics:{
     default: "arcade",
     arcade:{
-      gravity:{y:500},
-      debug:false
+      gravity:{y:500}, //850
+      debug:true
     }
   },
   pixelArt: true
