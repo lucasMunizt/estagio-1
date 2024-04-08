@@ -36,8 +36,9 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 
 ### Épicos/Funcionalidades
 
-1. DESCREVA AS FUNCIONALIDADES
-2. 
+1. Menu inicial
+2. Tutorial
+3. Créditos
 
 ### Personas
 
@@ -49,4 +50,6 @@ DIAGRAMA COM O PROTOTIPO DO JOGO
 
 ## Tecnologias e Ferramentas utilizadas
 
-1. QUAIS TECNOLOGIAS UTILIZADAS.
+1. JavaScript
+2. Phaser 3
+3. TypeScript
