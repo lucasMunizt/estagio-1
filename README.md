@@ -24,10 +24,8 @@ DESCREVA AS FASES DO JOGO.
 
 | Fases | Descrição |
 | ----- | ----------- |
-| 1     |             |
-| 2     |             |
-| 3     |             |
-| 4     |             |
+| 1     | Capitar a maior quantidade de score no menor tempor |
+| 2     | Durante a segunda fase será no mesmo mapa na primeira mas com o tempo menor com valor de cada score diferente |
 
 ## Esquema de Pontuação
 
@@ -38,8 +36,9 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 
 ### Épicos/Funcionalidades
 
-1. DESCREVA AS FUNCIONALIDADES
-2. 
+1. Menu inicial
+2. Tutorial
+3. Créditos
 
 ### Personas
 
@@ -51,4 +50,6 @@ DIAGRAMA COM O PROTOTIPO DO JOGO
 
 ## Tecnologias e Ferramentas utilizadas
 
-1. QUAIS TECNOLOGIAS UTILIZADAS.
+1. JavaScript
+2. Phaser 3
+3. TypeScript
