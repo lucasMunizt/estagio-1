@@ -40,13 +40,9 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 2. Tutorial
 3. Créditos
 
-### Personas
-
-1. **QUEM SÃO OS PERSONAGENS DO JOGO**
-
 ## Protótipos de Tela
 
-DIAGRAMA COM O PROTOTIPO DO JOGO
+Menu inicial -> Tutorial -> Adiciona nome -> Fase -> Final -> Placa -> Menu inicial 
 
 ## Tecnologias e Ferramentas utilizadas
 
