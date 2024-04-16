@@ -24,8 +24,8 @@ DESCREVA AS FASES DO JOGO.
 
 | Fases | Descrição |
 | ----- | ----------- |
-| 1     | Capitar a maior quantidade de score no menor tempor |
-| 2     | Durante a segunda fase será no mesmo mapa na primeira mas com o tempo menor com valor de cada score diferente |
+| 1     | Capitar a maior quantidade de score no menor tempo. |
+| 2     | Durante a segunda fase será no mesmo mapa na primeira mas com o tempo menor com valor de cada score diferente. |
 
 ## Esquema de Pontuação
 
@@ -40,13 +40,9 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 2. Tutorial
 3. Créditos
 
-### Personas
-
-1. **QUEM SÃO OS PERSONAGENS DO JOGO**
-
 ## Protótipos de Tela
 
-DIAGRAMA COM O PROTOTIPO DO JOGO
+Menu inicial -> Tutorial -> Adiciona nome -> Fase -> Final -> Placa -> Menu inicial 
 
 ## Tecnologias e Ferramentas utilizadas
 
