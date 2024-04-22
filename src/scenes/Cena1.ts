@@ -7,6 +7,7 @@ export class Cena1 extends Phaser.Scene {
     platforms: Phaser.Physics.Arcade.StaticGroup;
     ladders: Phaser.Physics.Arcade.StaticGroup;
     walls: Phaser.Physics.Arcade.StaticGroup;
+    estrelas: Phaser.Physics.Arcade.Group;
 
     constructor() {
         super('Cena1');
@@ -20,6 +21,7 @@ export class Cena1 extends Phaser.Scene {
         this.load.image('ladder2', './assets/character/ladder2.png');
         this.load.image('wall', './assets/character/industrialTile_25.png');
         this.load.image('muro', './assets/character/industrialTile_03.png');
+        this.load.image('estrela', './assets/character/estrela.png');
         //this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
 
         this.load.spritesheet('guy', './assets/character/guy.png', { frameWidth: 16, frameHeight: 24 }); //16 24
@@ -52,6 +54,17 @@ export class Cena1 extends Phaser.Scene {
             repeat: -1
         })
 
+        this.estrelas = this.physics.add.group({
+            key: 'estrela',
+            repeat: 11,
+            setXY: { x: 12, y: 0, stepX: 70 }
+        });
+
+        this.estrelas.children.iterate((child: Phaser.Physics.Arcade.Sprite): boolean => {
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            return true;
+        });
+        
         this.control = this.input.keyboard.createCursorKeys();
         this.platforms = this.physics.add.staticGroup();
         this.ladders = this.physics.add.staticGroup();
@@ -176,49 +189,66 @@ export class Cena1 extends Phaser.Scene {
     }
 
     update() {
-        if (this.physics.overlap(this.player, this.ladders) ) { // possibilidade this.physics.collide(this.ladders)
-            this.player.setDepth(1000); // essa função faz o objeto sobrepor outro pelo maior valor
+        if (this.physics.overlap(this.player, this.ladders)) {
+            
+            this.player.setDepth(1000);
             this.physics.world.gravity.y = 0;
-            if (this.control.up.isDown) {
-                this.player.anims.play('moveUp',true)
+            this.player.setVelocityX(0);
+           if (this.control.right.isDown) {
+            this.player.flipX = false;
+            this.player.anims.play('walk', true);
+            this.player.setVelocityX(100);
+        } else if (this.control.left.isDown) {
+            this.player.flipX = true;
+            this.player.anims.play('walk', true);
+            this.player.setVelocityX(-100);
+        }
+           
+           
+           if (this.control.up.isDown) {
+                this.player.anims.play('moveUp', true);
                 this.player.setVelocityY(-150);
-            } 
-            else if (this.control.down.isDown) {
-                this.player.anims.play('moveUp',true);
+            } else if (this.control.down.isDown) {
+                this.player.anims.play('moveUp', true);
                 this.player.setVelocityY(150);
-                
-            } 
-            else {
+            } else {
                 this.player.setVelocityY(0);
                 this.player.setFrame(13);
             }
-        } 
-        else {
-
+        } else if (this.physics.overlap(this.player, this.platforms)) {
+           
+            if (this.control.right.isDown) {
+                this.player.flipX = false;
+                this.player.anims.play('walk', true);
+                this.player.setVelocityX(100);
+            } else if (this.control.left.isDown) {
+                this.player.flipX = true;
+                this.player.anims.play('walk', true);
+                this.player.setVelocityX(-100);
+            } else {
+                this.player.setVelocityX(0);
+                this.player.setFrame(1);
+            }
+        } else {
             if (this.control.left.isDown) {
                 this.player.flipX = true;
                 this.player.anims.play('walk', true);
                 this.player.setVelocityX(-150);
-            }
-            else if (this.control.right.isDown) {
+            } else if (this.control.right.isDown) {
                 this.player.flipX = false;
                 this.player.anims.play('walk', true);
                 this.player.setVelocityX(150);
-            }
-            else if (this.control.space.isDown && this.player.canjump && this.player.body.touching.down ) {
+            } else if (this.control.space.isDown && this.player.canjump && this.player.body.touching.down) {
                 this.player.setVelocityY(-400);
                 this.player.canjump = false;
-            }
-            else if(!this.control.up.isDown &&!this.player.canjump && this.player.body.touching.down){
+            } else if (!this.control.space.isDown &&!this.player.canjump && this.player.body.touching.down) {
                 this.player.canjump = true;
-            }
-            else {
+            } else {
                 this.player.setVelocityX(0);
                 this.player.setFrame(1);
             }
             this.physics.world.gravity.y = 200;
         }
     }
-    
 }
 
