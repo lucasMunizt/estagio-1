@@ -168,15 +168,12 @@ export class Cena1 extends Phaser.Scene {
 
         // 4 escada
 
-        this.platforms.create(986, 240, 'ladder2').setScale(1,1.8).refreshBody();
-        this.platforms.create(986, 286, 'ladder2').setScale(1,1.8).refreshBody();
-        this.platforms.create(986, 332, 'ladder2').setScale(1,1.8).refreshBody();
-        this.platforms.create(986, 378, 'ladder2').setScale(1,1.8).refreshBody();
-        this.platforms.create(986, 414, 'ladder2').setScale(1).refreshBody();
-
-
-
-        // platafoma chão
+        this.ladders.create(986, 240, 'ladder2').setScale(1,1.8).refreshBody();
+        this.ladders.create(986, 286, 'ladder2').setScale(1,1.8).refreshBody();
+        this.ladders.create(986, 332, 'ladder2').setScale(1,1.8).refreshBody();
+        this.ladders.create(986, 378, 'ladder2').setScale(1,1.8).refreshBody();
+        this.ladders.create(986, 414, 'ladder2').setScale(1).refreshBody();
+      // platafoma chão
         for (let i = 40; i < 1221; i += 90) {
             this.platforms.create(i, 645, 'platform').setScale(3).refreshBody();
         }
