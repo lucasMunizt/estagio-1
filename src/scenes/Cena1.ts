@@ -1,3 +1,5 @@
+import { Game } from "phaser";
+
 interface PlayerWithJump extends Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
     canjump: boolean;
 }
@@ -54,16 +56,35 @@ export class Cena1 extends Phaser.Scene {
             repeat: -1
         })
 
-        this.estrelas = this.physics.add.group({
+        /*this.estrelas = this.physics.add.group({
             key: 'estrela',
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 }
         });
 
         this.estrelas.children.iterate((child: Phaser.Physics.Arcade.Sprite): boolean => {
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            child.setBounceY(Phaser.Math.FloatBetween(1, 1)).setCollideWorldBounds(true);
+     
             return true;
-        });
+        });*/
+
+        function RadomScore(x: number,y: number){
+            return Math.floor(Math.random() * y)
+
+            
+        }
+        this.estrelas = this.physics.add.group();
+
+        for (let i= 0; i < 10; i++) {
+            const x = Phaser.Math.Between(0, this.physics.world.bounds.width);
+            const y = Phaser.Math.Between(0, this.physics.world.bounds.height);
+            const estrelas = this.physics.add.sprite(x, y, 'estrela');
+            this.estrelas.add(estrelas);
+
+
+        }
+           
+
         
         this.control = this.input.keyboard.createCursorKeys();
         this.platforms = this.physics.add.staticGroup();
@@ -158,8 +179,8 @@ export class Cena1 extends Phaser.Scene {
         }
 
         // 3 escada
-        this.ladders.create(905, 452, 'ladder2').setScale(1, 2).refreshBody();
-        this.ladders.create(905, 490, 'ladder2').setScale(1, 1.8).refreshBody();
+        this.ladders.create(903, 452, 'ladder2').setScale(1, 2).refreshBody();
+        this.ladders.create(903, 490, 'ladder2').setScale(1, 1.8).refreshBody();
 
         // 6 plataforma
         for (let i = 1015; i < 1200; i += 32) {
@@ -181,7 +202,7 @@ export class Cena1 extends Phaser.Scene {
 
 
         this.physics.add.collider(this.player, this.platforms);
-
+        this.physics.add.collider(this.estrelas, this.platforms);
         
     }
 
