@@ -13,6 +13,12 @@ export class Cena1 extends Phaser.Scene {
     platformCoords: { x: number, y: number }[] = [];
     score: number
     txt: Phaser.GameObjects.Text;
+    MenuMusic: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
+    ruby: Phaser.Physics.Arcade.StaticGroup;
+    oba: Phaser.GameObjects.Text;
+    cronometro: Phaser.GameObjects.Text;
+    tempo: number;
+ 
   
 
     constructor() {
@@ -23,12 +29,13 @@ export class Cena1 extends Phaser.Scene {
         this.load.image('sky', './maps/mapcidade.jpg');
         this.load.image('platform', './assets/character/industrialTile_81.png');
         this.load.image('platform1', './assets/character/obj_box005.png');
-        this.load.image('ladder', './assets/character/ladder1.png');
         this.load.image('ladder2', './assets/character/ladder2.png');
         this.load.image('wall', './assets/character/industrialTile_25.png');
         this.load.image('muro', './assets/character/industrialTile_03.png');
-        this.load.image('estrela', './assets/character/estrela.png');
-        //this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
+        this.load.image('ruby','./assets/character/ruby.png');
+        this.load.spritesheet('estrela', './assets/character/coin.png' , {frameWidth: 16, frameHeight: 16});
+        //this.load.spritesheet('coin','./assets/character/coin.png', {frameWidth:14,frameHeight:16});
+        this.load.audio('menuMusic','./assets/music/cena1.mp3')
 
         this.load.spritesheet('guy', './assets/character/guy.png', { frameWidth: 16, frameHeight: 24 }); //16 24
     }
@@ -48,6 +55,14 @@ export class Cena1 extends Phaser.Scene {
             repeat: -1
         })
 
+
+       /* this.MenuMusic = this.sound.add('menuMusic');
+        this.MenuMusic.play({
+            volume:0.2,
+            loop:true
+        });*/
+
+
         this.anims.create({
             key:'moveUp',
             frames: this.anims.generateFrameNumbers('guy', {
@@ -58,26 +73,51 @@ export class Cena1 extends Phaser.Scene {
             repeat: -1
         })
 
-        this.estrelas = this.physics.add.group({
-            key:'estrela',
-            repeat:15,
-            setXY:{
-                x:240,
-                y:-50,
-                stepX:70,
-                scale:2022
-            }
+        
+
+            this.estrelas = this.physics.add.group({
+                key:'estrela',
+                repeat:16,
+                setXY:{
+                    x:240,
+                    y:-50,
+                    stepX:70,
+                }
+            }) 
+                
+        
+        this.anims.create({
+            key:'spin',
+            frames: this.anims.generateFrameNumbers('estrela', {
+                start: 2,
+                end: 8
+            }),
+            frameRate:8,
+            repeat: -1
         })
+
+        this.anims.create({
+            key:'test',
+            frames: this.anims.generateFrameNumbers('ruby', {
+                start: 0,
+                end: 1
+
+            }),
+            frameRate:8,
+            repeat: -1
+        })
+
         this.estrelas.children.iterate((estrela: Phaser.GameObjects.GameObject) => {
             (estrela as Phaser.Physics.Arcade.Image).setScale(1.3);
             return true; // Indicando que o loop deve continuar
         });
+
         //this.estrelas = this.physics.add.group();
         this.control = this.input.keyboard.createCursorKeys();
         this.platforms = this.physics.add.staticGroup();
         this.ladders = this.physics.add.staticGroup();
         this.walls = this.physics.add.staticGroup();
-
+        this.ruby = this.physics.add.staticGroup();
         /*for (let i = 0; i < 15; i++) {
             const x = Phaser.Math.Between(240, this.physics.world.bounds.width);
             const y = Phaser.Math.Between(0, this.physics.world.bounds.height);
@@ -86,12 +126,13 @@ export class Cena1 extends Phaser.Scene {
             
         }*/
           
-       
+
         // 1 plataforma superior  inicio do jogo
         for (let i = 17; i < 210; i += 32) {
 
             this.platforms.create(i, 170, 'wall').setScale().refreshBody();
             this.platformCoords.push({ x: i, y: 170 });
+          
         }
 
         // 4 unica plataforma da esquerda para direita
@@ -144,7 +185,8 @@ export class Cena1 extends Phaser.Scene {
         this.ladders.create(220, 517, 'ladder2').setScale(1, 2).refreshBody();
         this.ladders.create(220, 549, 'ladder2').setScale(1, 2).refreshBody();
         this.ladders.create(220, 581, 'ladder2').setScale(1, 1).refreshBody();
-
+        this.ruby.create(320,584,'ruby').setScale(1.4)
+        
         // fim do jogo 1 plataforma a partir 
         for (let i = 534; i < 662; i += 32) {
             this.platforms.create(i, 120, 'wall').setScale().refreshBody();
@@ -194,7 +236,7 @@ export class Cena1 extends Phaser.Scene {
         this.ladders.create(903, 490, 'ladder2').setScale(1, 1.8).refreshBody();
 
         // 6 plataforma
-        for (let i = 1015; i < 1200; i += 32) {
+        for (let i = 1015; i < 1208; i += 32) {
             this.platforms.create(i, 230, 'wall').setScale().refreshBody();
             this.platformCoords.push({x:i,y:230})
         }
@@ -212,36 +254,62 @@ export class Cena1 extends Phaser.Scene {
             this.platformCoords.push({x:i,y:645})
         }
 
+        this.ruby.create(1180,584,'ruby').setScale(1.4)
         
         this.estrelas.children.iterate((c) => {
             const sprite = c as Phaser.Physics.Arcade.Sprite;
+            sprite.anims.play('spin', true)
             sprite.setTexture('estrela');
             sprite.setBounceY(0.4);
             return true;
         });
             
         this.score = 0
-        this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5)
+        this.tempo = 30
+        this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5);
+        this.cronometro = this.add.text(600,10,`time:${this.tempo} `,{fontSize:"18px",color:"#000"}).setShadow(0,0,'#000',5);
         this.setScore()
+
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.estrelas, this.platforms);
         
         this.physics.add.overlap(this.estrelas,this.player,this.colectStar,null,this);
+        this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
             
     }
+
     setScore(){
        //this.txt.setText(this.estrelas.countActive(true) > 9 ?`SCORE:  ${this.score}`:`0 ${this.score}`)
        this.txt.setText(`SCORE:  ${this.score}`)
     }
 
-
-    colectStar( player: PlayerWithJump,  estrela:Phaser.Physics.Arcade.Sprite){
+    setTime(){
+        this.cronometro.setText(`TIME:  ${this.tempo}`)
+    }
+ 
+    colectStar( player: PlayerWithJump,estrela:Phaser.Physics.Arcade.Sprite){
         estrela.destroy();
         this.score +=10;
         this.setScore();
         this.physics.world.gravity.y = 850;
     }
+
+    colectRuby(player:PlayerWithJump,ruby:Phaser.Physics.Arcade.Image){
+        ruby.destroy();
+        this.score +=20;
+        console.log(this.score)
+        this.setScore();
+    }
+
+    Cronomento () {
+        let test = this.tempo;
+        test--
+    
+        this.setTime();
+    }
+
     update() {
+        this.Cronomento ()
         if (this.physics.overlap(this.player, this.ladders)) {
             
             this.player.setDepth(1000);
