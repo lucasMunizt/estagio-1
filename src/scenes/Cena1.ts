@@ -18,7 +18,8 @@ export class Cena1 extends Phaser.Scene {
     oba: Phaser.GameObjects.Text;
     cronometro: Phaser.GameObjects.Text;
     tempo: number;
- 
+    cronometroTexto: Phaser.GameObjects.Text;
+    cronometroEvento: Phaser.Time.TimerEvent;
   
 
     constructor() {
@@ -56,11 +57,11 @@ export class Cena1 extends Phaser.Scene {
         })
 
 
-       /* this.MenuMusic = this.sound.add('menuMusic');
+        this.MenuMusic = this.sound.add('menuMusic');
         this.MenuMusic.play({
             volume:0.2,
             loop:true
-        });*/
+        });
 
 
         this.anims.create({
@@ -263,11 +264,18 @@ export class Cena1 extends Phaser.Scene {
             sprite.setBounceY(0.4);
             return true;
         });
+        this.cronometroEvento = this.time.addEvent({
+            delay: 1000, // 1000ms = 1 segundo
+            callback: this.atualizarCronometro,
+            callbackScope: this,
+            loop: true
+        });
             
         this.score = 0
         this.tempo = 30
         this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5);
-        this.cronometro = this.add.text(600,10,`time:${this.tempo} `,{fontSize:"18px",color:"#000"}).setShadow(0,0,'#000',5);
+        this.cronometroTexto = this.add.text(600, 10, `TIME: ${this.tempo}`, { fontSize: "18px", color: "#000" }).setShadow(0, 0, '#000', 5);
+
         this.setScore()
 
         this.physics.add.collider(this.player, this.platforms);
@@ -301,15 +309,31 @@ export class Cena1 extends Phaser.Scene {
         this.setScore();
     }
 
-    Cronomento () {
-        let test = this.tempo;
-        test--
     
-        this.setTime();
+    atualizarCronometro() {
+        // Diminua o tempo em um segundo
+        this.tempo--;
+
+        // Atualize o texto do cronômetro na tela
+        this.cronometroTexto.setText(`TIME: ${this.tempo}`);
+
+        // Verifique se o tempo acabou
+        if (this.tempo <= 0) {
+            // Tempo acabou, adicione ação aqui
+            // Por exemplo, reiniciar o jogo ou ir para outra cena
+            this.gameOver();
+        }
     }
 
+    gameOver() {
+        // Adicione sua lógica de fim de jogo aqui
+        // Por exemplo, reiniciar o jogo ou ir para outra cena
+       // this.scene.start('GameOverScene');
+        window.alert("fim do jogo");
+        this.MenuMusic.stop();
+    }
     update() {
-        this.Cronomento ()
+
         if (this.physics.overlap(this.player, this.ladders)) {
             
             this.player.setDepth(1000);
