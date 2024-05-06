@@ -20,7 +20,8 @@ export class Cena1 extends Phaser.Scene {
     tempo: number;
     cronometroTexto: Phaser.GameObjects.Text;
     cronometroEvento: Phaser.Time.TimerEvent;
-  
+    tempoIniciado: boolean = false;
+    enemys: Phaser.Physics.Arcade.StaticGroup;
 
     constructor() {
         super('Cena1');
@@ -34,9 +35,9 @@ export class Cena1 extends Phaser.Scene {
         this.load.image('wall', './assets/character/industrialTile_25.png');
         this.load.image('muro', './assets/character/industrialTile_03.png');
         this.load.image('ruby','./assets/character/ruby.png');
+        this.load.image('enemy','./assets/character/spikeball.png');
         this.load.spritesheet('estrela', './assets/character/coin.png' , {frameWidth: 16, frameHeight: 16});
-        //this.load.spritesheet('coin','./assets/character/coin.png', {frameWidth:14,frameHeight:16});
-        this.load.audio('menuMusic','./assets/music/cena1.mp3')
+        this.load.audio('menuMusic','./assets/music/cena1.mp3');
 
         this.load.spritesheet('guy', './assets/character/guy.png', { frameWidth: 16, frameHeight: 24 }); //16 24
     }
@@ -57,11 +58,11 @@ export class Cena1 extends Phaser.Scene {
         })
 
 
-        this.MenuMusic = this.sound.add('menuMusic');
+     /*  this.MenuMusic = this.sound.add('menuMusic');
         this.MenuMusic.play({
             volume:0.2,
             loop:true
-        });
+        });*/
 
 
         this.anims.create({
@@ -108,17 +109,19 @@ export class Cena1 extends Phaser.Scene {
             repeat: -1
         })
 
+        //mecher na escala das moedas
         this.estrelas.children.iterate((estrela: Phaser.GameObjects.GameObject) => {
             (estrela as Phaser.Physics.Arcade.Image).setScale(1.3);
             return true; // Indicando que o loop deve continuar
         });
 
-        //this.estrelas = this.physics.add.group();
+        
         this.control = this.input.keyboard.createCursorKeys();
         this.platforms = this.physics.add.staticGroup();
         this.ladders = this.physics.add.staticGroup();
         this.walls = this.physics.add.staticGroup();
         this.ruby = this.physics.add.staticGroup();
+        this.enemys = this.physics.add.staticGroup()
         /*for (let i = 0; i < 15; i++) {
             const x = Phaser.Math.Between(240, this.physics.world.bounds.width);
             const y = Phaser.Math.Between(0, this.physics.world.bounds.height);
@@ -126,6 +129,7 @@ export class Cena1 extends Phaser.Scene {
             this.estrelas.add(estrelas);
             
         }*/
+
           
 
         // 1 plataforma superior  inicio do jogo
@@ -135,6 +139,8 @@ export class Cena1 extends Phaser.Scene {
             this.platformCoords.push({ x: i, y: 170 });
           
         }
+
+       
 
         // 4 unica plataforma da esquerda para direita
         this.platforms.create(350, 170, 'wall').setScale().refreshBody();
@@ -264,15 +270,10 @@ export class Cena1 extends Phaser.Scene {
             sprite.setBounceY(0.4);
             return true;
         });
-        this.cronometroEvento = this.time.addEvent({
-            delay: 1000, // 1000ms = 1 segundo
-            callback: this.atualizarCronometro,
-            callbackScope: this,
-            loop: true
-        });
-            
+
+ 
         this.score = 0
-        this.tempo = 30
+        this.tempo = 45
         this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5);
         this.cronometroTexto = this.add.text(600, 10, `TIME: ${this.tempo}`, { fontSize: "18px", color: "#000" }).setShadow(0, 0, '#000', 5);
 
@@ -281,10 +282,43 @@ export class Cena1 extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.estrelas, this.platforms);
         
-        this.physics.add.overlap(this.estrelas,this.player,this.colectStar,null,this);
+        this.physics.add.overlap(this.estrelas,this.player,this.colectCoin,null,this);
         this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
-            
+        this.physics.add.collider(this.enemys,this.player,this.coliderEnemys,null,this);
+        this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
+
+        this.enemys.create(746,500,'enemy').setScale().setVisible(false);
+        this.enemys.create(1100,580,'enemy').setScale().setVisible(false);
+
+              
     }
+
+     isTouchingEnemy:boolean = false;
+    coliderEnemys(player: PlayerWithJump, enemy: Phaser.Physics.Arcade.Image) {
+      
+        this.isTouchingEnemy = true;
+        console.log(this.isTouchingEnemy)
+        enemy.setVisible(true);
+        this.time.delayedCall(5000, () => {
+            // Destruir o inimigo após 5 segundos
+            if (!this.isTouchingEnemy) { // Se o jogador não estiver mais em contato com o inimigo
+                enemy.setVisible(false);
+                enemy.destroy()
+            } else {
+                if (this.isTouchingEnemy) { // Se o jogador ainda estiver em contato com o inimigo
+                    this.score -= 5;
+                    this.setScore();
+                }
+                this.isTouchingEnemy = false;
+            }
+        }, null, this);
+    }
+    
+
+    setVida(){
+      
+    }
+
 
     setScore(){
        //this.txt.setText(this.estrelas.countActive(true) > 9 ?`SCORE:  ${this.score}`:`0 ${this.score}`)
@@ -295,7 +329,7 @@ export class Cena1 extends Phaser.Scene {
         this.cronometro.setText(`TIME:  ${this.tempo}`)
     }
  
-    colectStar( player: PlayerWithJump,estrela:Phaser.Physics.Arcade.Sprite){
+    colectCoin( player: PlayerWithJump,estrela:Phaser.Physics.Arcade.Sprite){
         estrela.destroy();
         this.score +=10;
         this.setScore();
@@ -311,29 +345,33 @@ export class Cena1 extends Phaser.Scene {
 
     
     atualizarCronometro() {
-        // Diminua o tempo em um segundo
+
         this.tempo--;
 
-        // Atualize o texto do cronômetro na tela
         this.cronometroTexto.setText(`TIME: ${this.tempo}`);
 
-        // Verifique se o tempo acabou
         if (this.tempo <= 0) {
-            // Tempo acabou, adicione ação aqui
-            // Por exemplo, reiniciar o jogo ou ir para outra cena
+           
             this.gameOver();
         }
     }
 
-    gameOver() {
-        // Adicione sua lógica de fim de jogo aqui
-        // Por exemplo, reiniciar o jogo ou ir para outra cena
-       // this.scene.start('GameOverScene');
+    gameOver() {  
         window.alert("fim do jogo");
-        this.MenuMusic.stop();
     }
     update() {
 
+        if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
+            // O personagem começou a se mover, comece o cronômetro
+            this.tempoIniciado = true;
+            // Crie um evento de tempo que será chamado a cada segundo
+            this.cronometroEvento = this.time.addEvent({
+                delay: 1000, // 1000ms = 1 segundo
+                callback: this.atualizarCronometro,
+                callbackScope: this,
+                loop: true
+            });
+        }
         if (this.physics.overlap(this.player, this.ladders)) {
             
             this.player.setDepth(1000);
