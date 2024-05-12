@@ -22,6 +22,15 @@ export class Cena1 extends Phaser.Scene {
     cronometroEvento: Phaser.Time.TimerEvent;
     tempoIniciado: boolean = false;
     enemys: Phaser.Physics.Arcade.StaticGroup;
+    platforms1: Phaser.Physics.Arcade.StaticGroup;
+    initialFallY: number;
+    vida: number;
+    txtvida: Phaser.GameObjects.Text;
+    hasBeenHit: any;
+    temporizadorDestruicao: Phaser.Time.TimerEvent;
+
+   
+  
 
     constructor() {
         super('Cena1');
@@ -122,6 +131,7 @@ export class Cena1 extends Phaser.Scene {
         this.walls = this.physics.add.staticGroup();
         this.ruby = this.physics.add.staticGroup();
         this.enemys = this.physics.add.staticGroup()
+        this.platforms1 = this.physics.add.staticGroup();
         /*for (let i = 0; i < 15; i++) {
             const x = Phaser.Math.Between(240, this.physics.world.bounds.width);
             const y = Phaser.Math.Between(0, this.physics.world.bounds.height);
@@ -149,9 +159,9 @@ export class Cena1 extends Phaser.Scene {
         this.platformCoords.push({x:382,y:170})
 
         //1 escadas superio a esquerda para direita aumenta 50 168
-        this.ladders.create(242, 168, 'ladder2').setScale(1, 1).refreshBody();
-        this.ladders.create(242, 207, 'ladder2').setScale(1, 2).refreshBody();
-        this.ladders.create(242, 259, 'ladder2').setScale(1, 2).refreshBody();
+        this.ladders.create(244, 168, 'ladder2').setScale(1, 1).refreshBody();
+        this.ladders.create(244, 207, 'ladder2').setScale(1, 2).refreshBody();
+        this.ladders.create(244, 259, 'ladder2').setScale(1, 2).refreshBody();
      
 
         // 2  plataforma a baixo da escada a esquerda para direita
@@ -257,7 +267,7 @@ export class Cena1 extends Phaser.Scene {
         this.ladders.create(984, 414, 'ladder2').setScale(1).refreshBody();
       // platafoma chão
         for (let i = 40; i < 1221; i += 90) {
-            this.platforms.create(i, 645, 'platform').setScale(3).refreshBody();
+            this.platforms1.create(i, 645, 'platform').setScale(3).refreshBody();
             this.platformCoords.push({x:i,y:645})
         }
 
@@ -271,10 +281,11 @@ export class Cena1 extends Phaser.Scene {
             return true;
         });
 
- 
+        this.vida = 100
         this.score = 0
         this.tempo = 45
         this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5);
+        this.txtvida = this.add.text(700,10,`VIDA:${this.vida}`, { fontSize: "18px", color: "#000" });
         this.cronometroTexto = this.add.text(600, 10, `TIME: ${this.tempo}`, { fontSize: "18px", color: "#000" }).setShadow(0, 0, '#000', 5);
 
         this.setScore()
@@ -285,39 +296,143 @@ export class Cena1 extends Phaser.Scene {
         this.physics.add.overlap(this.estrelas,this.player,this.colectCoin,null,this);
         this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
         this.physics.add.collider(this.enemys,this.player,this.coliderEnemys,null,this);
-        this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
+       // this.physics.add.collider(this.player, this.enemys, this.endColiderEnemys, null, this);
+
+      //  this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
 
         this.enemys.create(746,500,'enemy').setScale().setVisible(false);
         this.enemys.create(1100,580,'enemy').setScale().setVisible(false);
-
-              
-    }
-
-     isTouchingEnemy:boolean = false;
-    coliderEnemys(player: PlayerWithJump, enemy: Phaser.Physics.Arcade.Image) {
       
-        this.isTouchingEnemy = true;
-        console.log(this.isTouchingEnemy)
-        enemy.setVisible(true);
-        this.time.delayedCall(5000, () => {
-            // Destruir o inimigo após 5 segundos
-            if (!this.isTouchingEnemy) { // Se o jogador não estiver mais em contato com o inimigo
-                enemy.setVisible(false);
-                enemy.destroy()
-            } else {
-                if (this.isTouchingEnemy) { // Se o jogador ainda estiver em contato com o inimigo
-                    this.score -= 5;
-                    this.setScore();
-                }
-                this.isTouchingEnemy = false;
-            }
-        }, null, this);
     }
+
+    touchingEnemy: boolean = false;
+    timer: Phaser.Time.TimerEvent;
+    tempoContato: number = 0;
+    coliderEnemys(player: PlayerWithJump, enemy: Phaser.Physics.Arcade.Image) {
+        
+      
+        this.touchingEnemy = true;
+        console.log('Inimigo tocado');
+        enemy.setVisible(true);
+      
+        this.time.delayedCall(5000, () => {
+          enemy.setVisible(false);
+          enemy.destroy();
+        }, null, this);
+
+         // Verificar a cada 1 segundo
+    
+         /*for(let i = 0; i < 5; i++){
+            this.tempoContato++
+            console.log("opa    ",i)
+        
+            if (i >= 2 ) {
+                //console.log(this.vida)
+                this.vida -= 20;
+                this.setVida();
+                
+            
+            }
+        */
+            if (this.touchingEnemy) {
+                console.log(this.touchingEnemy)
+               
+       
+            }
+            
+
+         
+      
+          
+         // Repetir o timer indefinidamente
+        
+      }
+
+
+     /* coliderEnemys(player: PlayerWithJump, enemy: Phaser.Physics.Arcade.Image) {
+        if (this.touchingEnemy) {
+            console.log('colidindo');
+            return;
+        } else {
+            console.log('não colidindo');
+        }
+    
+        this.touchingEnemy = true;
+        console.log('Inimigo tocado');
+        enemy.setVisible(true);
+    
+        this.time.delayedCall(5000, () => {
+            enemy.setVisible(false);
+            enemy.destroy();
+        }, null, this);
+    
+        // Verificar a cada 1 segundo
+        const intervalo = setInterval(() => {
+            if (!this.touchingEnemy) {
+                clearInterval(intervalo);
+                return;
+            }
+    
+            for (let i = 0; i < 5; i++) {
+                this.tempoContato++;
+                if (this.touchingEnemy) {
+                    console.log(this.tempoContato);
+                    if (this.tempoContato >= 2) {
+                        this.vida -= 20;
+                        this.setVida();
+                    }
+                } else {
+                    clearInterval(intervalo);
+                    return;
+                }
+            }
+        }, 1000); // 1 segundo
+    }*/
+    
+    
+    
     
 
-    setVida(){
-      
+    updateInitialFallY() {
+        // Verifica se o jogador não está mais tocando uma plataforma e atualiza initialFallY
+        if (!this.player.body.touching.down && this.player.body.velocity.y > 0) {
+
+            this.initialFallY = this.player.y;
+            //console.log("oi",this.initialFallY)
+        }
     }
+        hasLostLife = false;
+        setVida(){
+            const touchingGround1 = this.physics.collide(this.player, this.platforms1);
+
+            const platformHeight = 100;
+
+            // Calcula a velocidade de queda com base na altura da plataforma
+            const fallSpeed = this.calculateFallSpeed(platformHeight);
+        
+            // Se a velocidade de queda for maior ou igual a 412, aciona o game over
+            if (fallSpeed >= 412 && touchingGround1  && !this.hasLostLife) {
+                console.log(this.vida)
+            // this.gameOver();
+                this.vida -=50
+                
+                this.setVidan()
+                this.hasLostLife = true;
+
+                this.time.delayedCall(5000, () => { // 5000 milissegundos = 5 segundos
+                    this.hasLostLife = false;
+                });
+            
+            }
+            if(this.vida == 0 && touchingGround1){
+                this.gameOver();
+            }
+         }
+     
+     setVidan(){
+        this.txtvida.setText(`Vida:  ${this.vida}`)
+     }   
+  
 
 
     setScore(){
@@ -356,12 +471,30 @@ export class Cena1 extends Phaser.Scene {
         }
     }
 
+    calculateFallSpeed(height: number): number {
+        // Aceleração devido à gravidade (pixels/s^2)
+        const gravity = 850;
+        
+        // Calcula a velocidade final usando a fórmula da queda livre
+        const speed = Math.sqrt(2 * gravity * height);
+       const finalSpeed = Math.round(speed)
+    //    console.log(finalSpeed)
+        return finalSpeed;
+    }
+    
+    // Exemplo de uso da função
+     //platformHeight = 100; // Altura da plataforma em pixels
+    //fallSpeed = this.calculateFallSpeed(this.platformHeight);
+    
+
     gameOver() {  
         window.alert("fim do jogo");
     }
+    
     update() {
-
-        if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
+        this.updateInitialFallY()
+        this.setVida()
+      /*  if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
             // O personagem começou a se mover, comece o cronômetro
             this.tempoIniciado = true;
             // Crie um evento de tempo que será chamado a cada segundo
@@ -371,7 +504,8 @@ export class Cena1 extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-        }
+        }*/
+
         if (this.physics.overlap(this.player, this.ladders)) {
             
             this.player.setDepth(1000);
