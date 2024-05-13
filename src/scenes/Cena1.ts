@@ -467,13 +467,11 @@ export class Cena1 extends Phaser.Scene {
     }
 
     calculateFallSpeed(height: number): number {
-        // Aceleração devido à gravidade (pixels/s^2)
-        const gravity = 850;
+     
         
         // Calcula a velocidade final usando a fórmula da queda livre
-        const speed = Math.sqrt(2 * gravity * height);
-       const finalSpeed = Math.round(speed)
-    //    console.log(finalSpeed)
+        const speed = Math.sqrt(2 * 850 * height);
+        const finalSpeed = Math.round(speed)
         return finalSpeed;
     }
     
