@@ -292,7 +292,6 @@ export class Cena1 extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.estrelas, this.platforms);
-        
         this.physics.add.overlap(this.estrelas,this.player,this.colectCoin,null,this);
         this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
         this.physics.add.collider(this.enemys,this.player,this.coliderEnemys,null,this);
@@ -389,30 +388,23 @@ export class Cena1 extends Phaser.Scene {
         }, 1000); // 1 segundo
     }*/
     
-    
-    
-    
 
-    updateInitialFallY() {
-        // Verifica se o jogador não está mais tocando uma plataforma e atualiza initialFallY
-        if (!this.player.body.touching.down && this.player.body.velocity.y > 0) {
-
-            this.initialFallY = this.player.y;
-            //console.log("oi",this.initialFallY)
-        }
-    }
+    
+    
         hasLostLife = false;
         setVida(){
             const touchingGround1 = this.physics.collide(this.player, this.platforms1);
 
-            const platformHeight = 100;
-
+            let playrheight = this.player.body.y;
+           
             // Calcula a velocidade de queda com base na altura da plataforma
-            const fallSpeed = this.calculateFallSpeed(platformHeight);
-        
+           // const fallSpeed = this.calculateFallSpeed(playrheight);
+            console.log()
+            //console.log(fallSpeed)
             // Se a velocidade de queda for maior ou igual a 412, aciona o game over
-            if (fallSpeed >= 412 && touchingGround1  && !this.hasLostLife) {
-                console.log(this.vida)
+            if (playrheight >= 412 && touchingGround1  && !this.hasLostLife) {
+                console.log(playrheight)
+              //  console.log(this.vida)
             // this.gameOver();
                 this.vida -=50
                 
@@ -424,11 +416,14 @@ export class Cena1 extends Phaser.Scene {
                 });
             
             }
-            if(this.vida == 0 && touchingGround1){
-                this.gameOver();
+            if(this.vida === 0){
+               console.log('game over')
+                // this.gameOver();
             }
          }
      
+        
+        
      setVidan(){
         this.txtvida.setText(`Vida:  ${this.vida}`)
      }   
@@ -492,7 +487,6 @@ export class Cena1 extends Phaser.Scene {
     }
     
     update() {
-        this.updateInitialFallY()
         this.setVida()
       /*  if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
             // O personagem começou a se mover, comece o cronômetro
