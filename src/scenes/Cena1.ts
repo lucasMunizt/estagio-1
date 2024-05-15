@@ -28,10 +28,11 @@ export class Cena1 extends Phaser.Scene {
     txtvida: Phaser.GameObjects.Text;
     hasBeenHit: any;
     temporizadorDestruicao: Phaser.Time.TimerEvent;
-
+    playerPreviousY = 0; 
    
-  
-
+    MAXIMA_ALTURA_QUEDA = 412;
+    Velocidade_Minima_Queda = 5; 
+    alturaAnteriorJogador = 0;
     constructor() {
         super('Cena1');
     }
@@ -65,7 +66,7 @@ export class Cena1 extends Phaser.Scene {
             frameRate: 4,
             repeat: -1
         })
-
+        this.playerPreviousY = this.player.y;
 
      /*  this.MenuMusic = this.sound.add('menuMusic');
         this.MenuMusic.play({
@@ -295,15 +296,16 @@ export class Cena1 extends Phaser.Scene {
         this.physics.add.overlap(this.estrelas,this.player,this.colectCoin,null,this);
         this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
         this.physics.add.collider(this.enemys,this.player,this.coliderEnemys,null,this);
+        this.physics.add.collider(this.player,this.platforms1,this.setVida,null,this);
        // this.physics.add.collider(this.player, this.enemys, this.endColiderEnemys, null, this);
 
       //  this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
 
         this.enemys.create(746,500,'enemy').setScale().setVisible(false);
         this.enemys.create(1100,580,'enemy').setScale().setVisible(false);
-      
+        
     }
-
+    
     touchingEnemy: boolean = false;
     timer: Phaser.Time.TimerEvent;
     tempoContato: number = 0;
@@ -390,38 +392,34 @@ export class Cena1 extends Phaser.Scene {
     
 
     
-    
+        previousHeight = 0;
         hasLostLife = false;
-        setVida(){
-            const touchingGround1 = this.physics.collide(this.player, this.platforms1);
+        colidiuComPlataforma = false; // Variável de controle para acompanhar se o jogador já colidiu com uma plataforma
 
-            let playrheight = this.player.body.y;
-           
-            // Calcula a velocidade de queda com base na altura da plataforma
-           // const fallSpeed = this.calculateFallSpeed(playrheight);
-            console.log()
-            //console.log(fallSpeed)
-            // Se a velocidade de queda for maior ou igual a 412, aciona o game over
-            if (playrheight >= 412 && touchingGround1  && !this.hasLostLife) {
-                console.log(playrheight)
-              //  console.log(this.vida)
-            // this.gameOver();
-                this.vida -=50
-                
-                this.setVidan()
-                this.hasLostLife = true;
-
-                this.time.delayedCall(5000, () => { // 5000 milissegundos = 5 segundos
-                    this.hasLostLife = false;
-                });
+        setVida() {
+            const alturaJogador = this.player.y;
+            const caindo = alturaJogador > this.alturaAnteriorJogador;
+            const velocidadeQueda = caindo ? alturaJogador - this.alturaAnteriorJogador : 0;
             
+            this.alturaAnteriorJogador = alturaJogador;
+
+            // Verifica se o jogador colidiu com uma plataforma pela primeira vez
+            if (!this.colidiuComPlataforma) {
+                this.colidiuComPlataforma = true;
+                return; // Não faz nada na primeira colisão
             }
-            if(this.vida === 0){
-               console.log('game over')
-                // this.gameOver();
+
+            // Verifica se a velocidade de queda é suficiente para perder vida
+            if (velocidadeQueda >= this.Velocidade_Minima_Queda) {
+                this.vida -= 50;
+                this.setVidan();
             }
-         }
-     
+            if(this.vida == 0){
+                this.gameOver();
+            }
+        }
+            // Verifica se a vida chegou a zero para encerrar o jogo
+        
         
         
      setVidan(){
@@ -481,11 +479,13 @@ export class Cena1 extends Phaser.Scene {
     
 
     gameOver() {  
-        window.alert("fim do jogo");
+       // window.alert("fim do jogo");
+       console.log("fim do jogo ")
     }
     
     update() {
-        this.setVida()
+        this.playerPreviousY = this.player.y;
+           // this.setVida()
       /*  if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
             // O personagem começou a se mover, comece o cronômetro
             this.tempoIniciado = true;
