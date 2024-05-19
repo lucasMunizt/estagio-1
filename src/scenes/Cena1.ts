@@ -309,7 +309,7 @@ export class Cena1 extends Phaser.Scene {
 
         this.vida = 100
         this.score = 0
-        this.tempo = 45
+        this.tempo = 50
         this.txt = this.add.text(15,10,`SCORE:  ${this.score}`,{fontSize:"18px"}).setShadow(0,0,'#000',5);
         this.txtvida = this.add.text(700,10,`VIDA:${this.vida}`, { fontSize: "18px", color: "#000" });
         this.cronometroTexto = this.add.text(600, 10, `TIME: ${this.tempo}`, { fontSize: "18px", color: "#000" }).setShadow(0, 0, '#000', 5);
@@ -320,9 +320,10 @@ export class Cena1 extends Phaser.Scene {
         this.physics.add.collider(this.estrelas, this.platforms);
         this.physics.add.overlap(this.estrelas,this.player,this.colectCoin,null,this);
         this.physics.add.overlap(this.ruby,this.player,this.colectRuby,null,this);
-        this.physics.add.collider(this.enemys,this.player,this.colisaoComInimigo,null,this);
+        this.physics.add.collider(this.enemys,this.player,this.handleEnemyCollision,null,this);
         this.physics.add.collider(this.player,this.platforms1,this.setVida,null,this);
         this.physics.add.collider(this.player,this.vilao,this.gameOver,null,this);
+        this.physics.add.collider(this.player,this.muro);
 
        // this.physics.add.collider(this.player, this.enemys, this.endColiderEnemys, null, this);
 
@@ -336,46 +337,37 @@ export class Cena1 extends Phaser.Scene {
         this.vilao.setVelocityX(100 * this.direction);
     }
 
-    colisaoComInimigo() {
-        // Define que o jogador está em contato com o inimigo
-        this.touchingEnemy = true;
-        this.enemys.setVisible(true)
-        // Se já houver um temporizador em andamento, não faça nada
-        if (this.temporizadorContato) {
-            return;
-        }
-        
-        // Inicia o temporizador de contato contínuo
-        this.temporizadorContato = this.time.delayedCall(this.tempoContatoNecessario, () => {
-            // Se o jogador ainda estiver em contato após o tempo especificado, ele perde vida
-            if (this.touchingEnemy) {
-                // Reduz a vida do jogador
-                this.vida -= 20; // Reduz 20 pontos de vida
-                this.jogadorPerdeuVida = true;
-                this.setVidan(); // Atualiza o texto da vida na tela
+    handleEnemyCollision(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
+        if (!this.touchingEnemy) {
+            this.touchingEnemy = true;
+            this.vida -= 20; // Aplica o dano imediatamente
+            this.txtvida.setText('Vida: ' + this.vida); // Atualiza o texto de vida
+    
+            // Torna o inimigo invisível
+            this.enemys.setVisible(true);
+            //enemy.body.enable = false;
+    
+            // Configura um temporizador de 5 segundos para destruir o inimigo
+            this.time.delayedCall(5000, () => {
+                enemy.destroy();
+            }, [], this);
+    
+            // Verifica se a vida do jogador chegou a zero
+            if (this.vida <= 0) {
+                this.gameOver(); // Chama gameOver se a vida for menor ou igual a 0
             }
-            
-            // Limpa o temporizador após o término
-            this.temporizadorContato = null;
-            this.jogadorPerdeuVida = false; // Reseta para futuras colisões
-        });
-    }
-
-    verificarContatoComInimigo() {
-        if (!this.touchingEnemy && this.temporizadorContato) {
-            // Se o jogador não está mais em contato e o temporizador está ativo, cancela o temporizador
-            this.temporizadorContato.remove();
-            this.temporizadorContato = null;
+    
+            // Temporizador para permitir novo contato com o inimigo
+            this.temporizadorContato = this.time.delayedCall(this.tempoContatoNecessario, () => {
+                this.touchingEnemy = false;
+            }, [], this);
         }
-    }
-
-    sairDoContatoComInimigo() {
-        // Método que deve ser chamado quando o jogador sai do contato com o inimigo
-        this.touchingEnemy = false;
-    }
-        
-        colidiuComPlataforma = false; // Variável de controle para acompanhar se o jogador já colidiu com uma plataforma
+    } 
+    
+    
+    colidiuComPlataforma = false; 
         setVida() {
+
             const alturaJogador = this.player.y;
             const caindo = alturaJogador > this.alturaAnteriorJogador;
             const velocidadeQueda = caindo ? alturaJogador - this.alturaAnteriorJogador : 0;
@@ -443,30 +435,22 @@ export class Cena1 extends Phaser.Scene {
         }
     }
 
-    calculateFallSpeed(height: number): number {
-     
-        
-        // Calcula a velocidade final usando a fórmula da queda livre
-        const speed = Math.sqrt(2 * 850 * height);
-        const finalSpeed = Math.round(speed)
-        return finalSpeed;
-    }
-    
-    // Exemplo de uso da função
-     //platformHeight = 100; // Altura da plataforma em pixels
-    //fallSpeed = this.calculateFallSpeed(this.platformHeight);
-    
-
     gameOver() {  
-       // window.alert("fim do jogo");
        if(this.vida == 0){
-        //window.alert("fim do jogo");
-        console.log("fim")
+        this.scene.launch('Gameover')
+        
        }
        console.log("fim do jogo ")
+       this.scene.launch('Gameover')
+       this.scene.pause();
     }
     
     update() {
+        if(this.vida == 0 || this.vida < 0){
+            this.scene.launch('Gameover')
+            
+           }
+
         if (this.vilao.body.blocked.right) {
            // this.vilao.play('movermonstro');
             this.direction = -1; 
@@ -479,7 +463,7 @@ export class Cena1 extends Phaser.Scene {
         this.vilao.setVelocityX(100 * this.direction);
     
         this.startMoving() 
-      /*  if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
+        if (!this.tempoIniciado && (this.control.left.isDown || this.control.right.isDown)) {
             // O personagem começou a se mover, comece o cronômetro
             this.tempoIniciado = true;
             // Crie um evento de tempo que será chamado a cada segundo
@@ -489,7 +473,7 @@ export class Cena1 extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-        }*/
+        }
 
         if (this.physics.overlap(this.player, this.ladders)) {
             

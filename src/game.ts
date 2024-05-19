@@ -1,12 +1,15 @@
 import * as Phaser from "phaser";
 import {Cena1} from "./scenes/Cena1";
 import {menu} from "./scenes/menu";
+import  {Gameover} from  "./scenes/Gameover";
+import {Tutorial} from "./scenes/Tutorial";
+
 const config = {
   type: Phaser.CANVAS, // auto
   backgroundColor: "#125555",
   width: 1200,
   height: 640,
-  scene: [Cena1],
+  scene: [menu,Tutorial,Cena1,Gameover],
   physics:{
     default: "arcade",
     arcade:{

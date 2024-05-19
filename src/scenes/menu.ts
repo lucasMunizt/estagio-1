@@ -7,7 +7,7 @@ export class menu extends Phaser.Scene{
     preload(){
         this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
         this.load.image('menu','./assets/image/menu.jpg')
-        this.load.image('iniciar','./assets/image/button.png')
+        this.load.image('iniciar','./assets/image/iniciar.png')
 
     }
 
@@ -28,7 +28,7 @@ export class menu extends Phaser.Scene{
 
         iniciar.on("pointerdown", () => {
             this.MenuMusic.stop();
-            this.scene.start('Cena1');
+            this.scene.start('Tutorial');
         });
 
     }
