@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import {Cena1} from "./scenes/Cena1";
-import {menu} from "./scenes/Menu";
+import {Menu} from "./scenes/Menu";
 import  {Gameover} from  "./scenes/Gameover";
 import {Tutorial} from "./scenes/Tutorial";
 
@@ -9,7 +9,7 @@ const config = {
   backgroundColor: "#125555",
   width: 1200,
   height: 640,
-  scene: [menu,Tutorial,Cena1,Gameover],
+  scene: [Menu,Tutorial,Cena1,Gameover],
   physics:{
     default: "arcade",
     arcade:{

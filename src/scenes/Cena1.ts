@@ -60,6 +60,7 @@ export class Cena1 extends Phaser.Scene {
     }
 
     create() {
+        this.tempoIniciado = false
         let map = this.add.image(0, 0, 'sky').setOrigin(0, 0);
         this.player = this.physics.add.sprite(0, 135, 'guy').setCollideWorldBounds(true).setScale(1.7) as PlayerWithJump;
         this.vilao = this.physics.add.sprite(1100,574, 'monstro').setCollideWorldBounds(true).setScale(1) as PlayerWithJump;
