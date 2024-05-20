@@ -24,7 +24,8 @@ export class Gameover extends Phaser.Scene{
             this.scene.start('Cena1');
         });
         sair.on("pointerdown",()=>{
-            this.scene.start('menu');
+        
+            this.scene.start('Menu');
         });
     }
 

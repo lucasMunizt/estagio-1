@@ -47,11 +47,10 @@ export class Cena1 extends Phaser.Scene {
     
     preload() {
         this.load.image('sky', './maps/mapcidade.jpg');
-        this.load.image('platform', './assets/character/industrialTile_81.png');
-        this.load.image('platform1', './assets/character/obj_box005.png');
+        this.load.image('platform', './assets/character/chao.png');
         this.load.image('ladder2', './assets/character/ladder2.png');
-        this.load.image('wall', './assets/character/industrialTile_25.png');
-        this.load.image('muro', './assets/character/industrialTile_03.png');
+        this.load.image('wall', './assets/character/plataformas.png');
+        this.load.image('muro', './assets/character/parede.png');
         this.load.image('ruby','./assets/character/ruby.png');
         this.load.image('enemy','./assets/character/spikeball.png');
         this.load.spritesheet('estrela', './assets/character/coin.png' , {frameWidth: 16, frameHeight: 16});
@@ -435,6 +434,24 @@ export class Cena1 extends Phaser.Scene {
         }
     }
 
+    resetTimer() {
+        // Reinicia o tempo
+        this.tempo = 50;
+        // Atualiza o texto do cronômetro
+        this.cronometroTexto.setText(`TIME: ${this.tempo}`);
+        // Cancela o evento do cronômetro se estiver ativo
+        if (this.cronometroEvento) {
+            this.cronometroEvento.destroy();
+        }
+        // Inicia novamente o evento do cronômetro
+        this.cronometroEvento = this.time.addEvent({
+            delay: 1000,
+            callback: this.atualizarCronometro,
+            callbackScope: this,
+            loop: true
+        });
+    }
+    
     gameOver() {  
        if(this.vida == 0){
         this.scene.launch('Gameover')
@@ -443,6 +460,7 @@ export class Cena1 extends Phaser.Scene {
        console.log("fim do jogo ")
        this.scene.launch('Gameover')
        this.scene.pause();
+       this.resetTimer();
     }
     
     update() {

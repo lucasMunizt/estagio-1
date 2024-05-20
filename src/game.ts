@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import {Cena1} from "./scenes/Cena1";
-import {menu} from "./scenes/menu";
+import {menu} from "./scenes/Menu";
 import  {Gameover} from  "./scenes/Gameover";
 import {Tutorial} from "./scenes/Tutorial";
 

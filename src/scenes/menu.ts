@@ -28,7 +28,7 @@ export class menu extends Phaser.Scene{
 
         iniciar.on("pointerdown", () => {
             this.MenuMusic.stop();
-            this.scene.start('Tutorial');
+            this.scene.launch('Tutorial');
         });
 
     }
