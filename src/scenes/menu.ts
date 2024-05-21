@@ -1,7 +1,7 @@
-export class Menu extends Phaser.Scene{
+export class menu extends Phaser.Scene{
     MenuMusic: Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound;
     constructor(){
-        super('Menu');
+        super('menu');
     }
 
     preload(){
