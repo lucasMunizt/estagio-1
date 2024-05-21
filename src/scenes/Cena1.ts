@@ -327,7 +327,7 @@ export class Cena1 extends Phaser.Scene {
 
        // this.physics.add.collider(this.player, this.enemys, this.endColiderEnemys, null, this);
 
-        this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
+     //   this.enemys.create(150,135,'enemy').setScale().setVisible(false).setBounceY(1);
 
       //  this.enemys.create(746,500,'enemy').setScale().setVisible(false);
        // this.enemys.create(1100,580,'enemy').setScale().setVisible(false);
