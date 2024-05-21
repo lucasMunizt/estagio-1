@@ -18,7 +18,7 @@ export class Tutorial extends Phaser.Scene{
         iniciar.setInteractive();
 
         voltar.on("pointerdown",()=>{
-            this.scene.start('menu');
+            this.scene.start('Menu');
         })
         iniciar.on("pointerdown",()=>{
             this.scene.start('Cena1');
