@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import {Cena1} from "./scenes/Cena1";
 import {Menu} from "./scenes/Menu";
-import  {Gameover} from  "./scenes/Gameover";
+import {Gameover} from "./scenes/Gameover";
 import {Tutorial} from "./scenes/Tutorial";
 
 const config = {
