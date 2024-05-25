@@ -9,7 +9,7 @@ const config = {
   backgroundColor: "#125555",
   width: 1200,
   height: 640,
-  scene: [Menu,Tutorial,Cena1,Gameover],
+  scene: [Cena1,Gameover],
   physics:{
     default: "arcade",
     arcade:{
