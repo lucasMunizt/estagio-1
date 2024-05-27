@@ -3,7 +3,7 @@ import {Cena1} from "./scenes/Cena1";
 import {Menu} from "./scenes/Menu";
 import {Gameover} from "./scenes/Gameover";
 import {Tutorial} from "./scenes/Tutorial";
-import { Name } from "./scenes/Name";
+//import { Name } from "./scenes/Name";
 
 const config = {
   type: Phaser.CANVAS, // auto
