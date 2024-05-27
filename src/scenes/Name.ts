@@ -1,5 +1,5 @@
 // Name.ts
-import { db } from './firebaseconfig'; // Certifique-se de usar a extensão correta '.ts'
+/*import { db } from './firebaseconfig'; // Certifique-se de usar a extensão correta '.ts'
 import { collection, addDoc } from 'firebase/firestore';
 
 export class Name extends Phaser.Scene {
@@ -90,4 +90,4 @@ export class Name extends Phaser.Scene {
             this.feedbackDiv = null;
         }
     }
-}
+}*/
