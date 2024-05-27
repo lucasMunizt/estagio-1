@@ -4,7 +4,7 @@ export class Tutorial extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('tutorial', 'assets/image/tutorial.png');
+        this.load.image('tutorial', 'assets/image/tutorial2.png');
         this.load.image('voltar', 'assets/image/voltar.png');
         this.load.image('iniciar', 'assets/image/iniciar.png');
         
