@@ -182,7 +182,7 @@ export class Cena1 extends Phaser.Scene {
         this.muro = this.physics.add.staticGroup();
         this.enemy =this.enemys.create(Phaser.Math.Between(650,950),0,'enemy')
         .setBounceY(1)
-        .setCollideWorldBounds(true) as PlayerWithJump
+        .setCollideWorldBounds(true).setScale(0.8) as PlayerWithJump
 
         // 1 plataforma superior  inicio do jogo
         for (let i = 17; i < 210; i += 32) {
@@ -318,7 +318,7 @@ export class Cena1 extends Phaser.Scene {
 
         this.vida = 100
         this.score = 0
-        this.tempo = 50
+        this.tempo = 45
         this.txt = this.add.text(15, 10, `SCORE:  ${this.score}`, { fontSize: "18px" }).setShadow(0, 0, '#000', 5);
         this.txtvida = this.add.text(700, 10, `VIDA:${this.vida}`, { fontSize: "18px", color: "#000" });
         this.cronometroTexto = this.add.text(600, 10, `TIME: ${this.tempo}`, { fontSize: "18px", color: "#000" }).setShadow(0, 0, '#000', 5);
@@ -460,21 +460,21 @@ export class Cena1 extends Phaser.Scene {
 
         if (this.vilao.body.blocked.right ) {
              this.vilao.play('movermonstroL');
-             this.direction = -1; //3
+             this.direction = -2; //3
         }
 
         else if (this.physics.collide(this.vilao, this.muro)) {
             this.vilao.play('movermonstro');
-            this.direction = 1; //3
+            this.direction = 2; //3
         }
 
         else if(this.monstro.body.blocked.right){
             this.monstro.play('movermonstroL');
-            this.directionM = -1; //3
+            this.directionM = -2; //3
         }
         else if(this.monstro.body.blocked.left){
             this.monstro.play('movermonstro');
-            this.directionM = 1; //3
+            this.directionM = 2; //3
         }
        
 
