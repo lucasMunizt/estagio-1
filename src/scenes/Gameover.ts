@@ -5,7 +5,7 @@ export class Gameover extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('gameover', 'assets/image/gameover.png');
+        this.load.image('gameover', 'assets/image/gameover2.png');
         this.load.image('jogardenovo', 'assets/image/jogardenovo.png');
         this.load.image('sair', 'assets/image/sair.png');
                  
@@ -24,7 +24,7 @@ export class Gameover extends Phaser.Scene{
             this.scene.start('Cena1');
         });
         sair.on("pointerdown",()=>{
-        
+            this.scene.stop('Cena1');
             this.scene.start('Menu');
         });
     }

@@ -1,5 +1,6 @@
 import { Vector } from "matter";
-
+import { saveScore } from './firebaseconfig';
+import { addDoc, collection } from 'firebase/firestore';
 interface PlayerWithJump extends Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
     canjump: boolean;
 }
@@ -325,17 +326,20 @@ export class Cena1 extends Phaser.Scene {
         this.setScore()
 
         this.physics.add.collider(this.vilao,this.platforms1);
-        this.physics.add.collider(this.enemys, this.platforms);
-  
-        this.physics.add.collider(this.enemys, this.platforms1);
-        this.physics.add.collider(this.enemys, this.muro);
+
+        this.physics.add.collider(this.enemys, this.platforms,this.handleEnemyPlatformCollision,null,this);
+        this.physics.add.collider(this.enemys, this.platforms1,this.handleEnemyPlatformCollision,null,this);
+        this.physics.add.collider(this.enemys, this.muro,this.handleEnemyPlatformCollision,null,this);
         this.physics.add.collider(this.monstro,this.platforms1);
+
         this.physics.add.collider(this.monstro,this.player,this.gameOver,null,this);
         this.physics.add.collider(this.monstro, this.muro);
         this.physics.add.collider(this.monstro, this.platforms);
+
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.estrelas, this.platforms);
         this.physics.add.overlap(this.estrelas, this.player, this.colectCoin, null, this);
+
         this.physics.add.overlap(this.ruby, this.player, this.colectRuby, null, this);
         this.physics.add.collider(this.player, this.platforms1);
         this.physics.add.collider(this.player, this.vilao, this.gameOver, null, this);
@@ -352,30 +356,17 @@ export class Cena1 extends Phaser.Scene {
       
     }
 
+    handleEnemyPlatformCollision(enemy: Phaser.Physics.Arcade.Sprite) {
+        enemy.setVelocityX(enemy.body.velocity.x * -1); // Inverte a direção horizontal
+    }
+
+   
+
+
     destruindomonstro() {
         this.gameOver();
     }
     
-
-    /*colidiuComPlataforma = false;
-    setVida() {
-        const alturaJogador = this.player.y;
-        const caindo = alturaJogador > this.alturaAnteriorJogador;
-        const velocidadeQueda = caindo ? alturaJogador - this.alturaAnteriorJogador : 0;
-        this.alturaAnteriorJogador = alturaJogador;
-
-        if (!this.colidiuComPlataforma) {
-            this.colidiuComPlataforma = true;
-            return;
-        }
-
-        if (velocidadeQueda >= this.Velocidade_Minima_Queda) {
-            this.vida -= 50;
-            this.setVidan();
-        }
-
-    }*/
-
 
     collisionHandler(valQueda: number) {
         if (valQueda >= 845 && valQueda <= 850) {
@@ -435,9 +426,15 @@ export class Cena1 extends Phaser.Scene {
 
     gameOver() {
         if (this.vida == 0) {
+            console.log(this.score)
+            saveScore(this.score);
+            console.log(saveScore(this.score))
             this.scene.launch('Gameover')
         }
         console.log("fim do jogo ")
+        console.log(this.score)
+        saveScore(this.score);
+        console.log(saveScore(this.score))
         this.scene.launch('Gameover')
         this.scene.pause();
         this.resetTimer();
