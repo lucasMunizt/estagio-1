@@ -8,7 +8,7 @@ export class Menu extends Phaser.Scene{
         this.load.audio('menuMusic','./assets/music/Menumusic.mp3')
         this.load.image('menu','./assets/image/menu.jpg')
         this.load.image('iniciar','./assets/image/iniciar.png')
-
+        this.load.image('rank','./assets/image/rank.png')
     }
 
     create(){
@@ -19,16 +19,22 @@ export class Menu extends Phaser.Scene{
         });
         const menu = this.add.image(0,0,'menu').setOrigin(0,0);
         const iniciar = this.add.image(530,250,'iniciar').setOrigin(0,0).setScale(1);
+        const rank = this.add.image(530,350,'rank').setOrigin(0,0).setScale(1);
         
         menu.displayWidth = 1200;
         menu.displayHeight = 640;
-       
+        rank.setInteractive();
        
         iniciar.setInteractive();
 
         iniciar.on("pointerdown", () => {
             this.MenuMusic.stop();
             this.scene.launch('Tutorial');
+        });
+
+        rank.on("pointerdown", () => {
+            this.MenuMusic.stop();
+            this.scene.launch('Ranking');
         });
 
     }

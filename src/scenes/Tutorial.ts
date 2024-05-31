@@ -1,3 +1,5 @@
+import { Menu } from "./Menu";
+
 export class Tutorial extends Phaser.Scene{
     constructor(){
         super({key: 'Tutorial'});
@@ -20,8 +22,9 @@ export class Tutorial extends Phaser.Scene{
         voltar.on("pointerdown",()=>{
             this.scene.start('Menu');
         })
-        iniciar.on("pointerdown",()=>{
-            this.scene.start('Cena1');
+        iniciar.on("pointerdown",()=>{  
+            this.scene.isVisible('Tutorial');
+            this.scene.start('Name');
         })
     
     }

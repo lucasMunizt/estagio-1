@@ -1,6 +1,8 @@
 import { Vector } from "matter";
 import { saveScore } from './firebaseconfig';
 import { addDoc, collection } from 'firebase/firestore';
+import { Name } from "./Name";
+
 interface PlayerWithJump extends Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
     canjump: boolean;
 }
@@ -407,6 +409,7 @@ export class Cena1 extends Phaser.Scene {
         this.cronometroTexto.setText(`TIME: ${this.tempo}`);
         if (this.tempo <= 0) {
             this.gameOver();
+            this.scene.launch('Name')
         }
     }
 
@@ -423,21 +426,19 @@ export class Cena1 extends Phaser.Scene {
             loop: true
         });
     }
-
+      
+       
+    name = new Name();
+   
     gameOver() {
         if (this.vida == 0) {
-            console.log(this.score)
-            saveScore(this.score);
-            console.log(saveScore(this.score))
             this.scene.launch('Gameover')
         }
         console.log("fim do jogo ")
-        console.log(this.score)
-        saveScore(this.score);
-        console.log(saveScore(this.score))
         this.scene.launch('Gameover')
         this.scene.pause();
         this.resetTimer();
+       saveScore(this.score,this.name.getName);
     }
 
     update() {
@@ -446,6 +447,7 @@ export class Cena1 extends Phaser.Scene {
             this.enemy.setActive(true);
             this.physics.add.collider(this.enemys, this.player, this.destruindomonstro,null,this);
             this.enemy.setVelocity(Math.random() < .5 ? -100 : 100, 50);
+            this.enemy.setGravityY(850)
         }
 
         let t = this.player.body.velocity.y;
@@ -549,4 +551,5 @@ export class Cena1 extends Phaser.Scene {
             return true;
         });
     }
+
 }
