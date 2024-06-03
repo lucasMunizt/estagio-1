@@ -41,9 +41,6 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 
 ## Protótipos de Tela
 ![Captura de tela 2024-06-03 153252](https://github.com/lucasMunizt/estagio-1/assets/87603728/a6573a3b-ca84-4ded-971e-666965ff9503)
-![Captura de tela 2024-06-03 153252](https://github.com/lucasMunizt/estagio-1/assets/87603728/a6573a3b-ca84-4ded-971e-666965ff9503)
-
-
 
 
 ## Tecnologias e Ferramentas utilizadas
@@ -51,3 +48,6 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 1. JavaScript
 2. Phaser 3
 3. TypeScript
+4. Figma
+5. Vercel
+6. Firebase
