@@ -1,6 +1,6 @@
 # `<A Fuga>`
 
-* Link do jogo:
+* Link do jogo: <a>https://estagio-1.vercel.app/</a>
 
 ## Motivação
 
@@ -25,7 +25,6 @@ DESCREVA AS FASES DO JOGO.
 | Fases | Descrição |
 | ----- | ----------- |
 | 1     | Capitar a maior quantidade de score no menor tempo. |
-| 2     | Durante a segunda fase será no mesmo mapa na primeira mas com o tempo menor com valor de cada score diferente. |
 
 ## Esquema de Pontuação
 
