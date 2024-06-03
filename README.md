@@ -4,7 +4,7 @@
 
 ## Motivação
 
-Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.Um jogo onde um bandido tentar escapa da policia passando pelos obstáculos.   
+Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.Um jogo onde um homem tentar capturar a maior quantidade de moedas, enquanto desvia dos obstáculos e tentar concluir no tempo limite .  
 
 ## Objetivo
 
