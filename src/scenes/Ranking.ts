@@ -27,12 +27,11 @@ export class Ranking extends Phaser.Scene{
                 fontSize: '18px',
                 color: '#ffffff'
             });
-            yPosition += 40; // Incrementa a posição y para o próximo score
+            yPosition += 40; 
         });
 
         voltar2.setInteractive();
         voltar2.on("pointerdown", () => {
-            // Lógica para voltar à cena anterior ou menu
             this.scene.start('Menu');
         });
     }

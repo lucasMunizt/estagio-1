@@ -75,6 +75,7 @@ export class Cena1 extends Phaser.Scene {
     }
 
     create() {
+        this.scene.stop("Name")
         this.tempoIniciado = false
         let map = this.add.image(0, 0, 'sky').setOrigin(0, 0);
         this.player = this.physics.add.sprite(0, 135, 'guy').setCollideWorldBounds(true).setScale(1.7) as PlayerWithJump;
@@ -396,6 +397,9 @@ export class Cena1 extends Phaser.Scene {
         this.score += 10;
         this.setScore();
         this.physics.world.gravity.y = 850;
+        if (this.score == 130) {
+            this.time.delayedCall(1000, this.recreateCoins, [], this); // Espera 1 segundo e recria as moedas
+        }
     }
 
     colectRuby(player: PlayerWithJump, ruby: Phaser.Physics.Arcade.Image) {
@@ -426,17 +430,35 @@ export class Cena1 extends Phaser.Scene {
             loop: true
         });
     }
-      
-       
+    recreateCoins() {
+     
+        this.estrelas = this.physics.add.group({
+            key: 'estrela',
+            repeat: 10,
+            setXY: {
+                x: 240,
+                y: -50,
+                stepX: 70,
+            }
+        }); 
+        this.estrelas.children.iterate((estrela: Phaser.GameObjects.GameObject) => {
+            (estrela as Phaser.Physics.Arcade.Image).setScale(1.3);
+            (estrela as Phaser.Physics.Arcade.Sprite).anims.play('spin', true);
+            return true;
+        });
+
+        this.physics.add.collider(this.estrelas, this.platforms);
+        this.physics.add.overlap(this.estrelas, this.player, this.colectCoin, null, this);
+    
+    }   
     name = new Name();
    
     gameOver() {
         if (this.vida == 0) {
             this.scene.launch('Gameover')
         }
-        console.log("fim do jogo ")
-        this.scene.launch('Gameover')
         this.scene.pause();
+        this.scene.launch('Gameover')
         this.resetTimer();
         this.MenuMusic.stop();
        saveScore(this.score,this.name.getName);

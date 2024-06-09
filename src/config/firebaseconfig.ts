@@ -4,7 +4,7 @@ import { getFirestore, collection, getDocs, addDoc, query, orderBy, limit } from
 
  const firebaseConfig = {
    
-    apiKey: "AIzaSyCTBauWlUBFtLSELzm_rFtfrDAbjsq28aM",
+  apiKey: "AIzaSyCTBauWlUBFtLSELzm_rFtfrDAbjsq28aM",
   authDomain: "a-fuga-b06c7.firebaseapp.com",
   databaseURL: "https://a-fuga-b06c7-default-rtdb.firebaseio.com",
   projectId: "a-fuga-b06c7",
@@ -27,12 +27,8 @@ export async function saveScore(score:number,name:string) {
          nome: name  
         
         });
-        console.log("Documento escrito com ID: ");
-        alert("Score salvo com sucesso! ID: ");
         return true;
     } catch (e) {
-        console.error("Error adding document: ", e);
-         alert("Erro ao salvar o score: " + e.message);
          return false;
     }
 }   

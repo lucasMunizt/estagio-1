@@ -12,6 +12,7 @@ export class Tutorial extends Phaser.Scene{
         
     }
     create(){
+        this.scene.stop('Menu')
         const tutorialimg = this.add.image(600,350,'tutorial');
         const iniciar = this.add.image(790,590,'iniciar').setInteractive();
         const voltar = this.add.image(425,590,'voltar').setInteractive();
@@ -23,7 +24,6 @@ export class Tutorial extends Phaser.Scene{
             this.scene.start('Menu');
         })
         iniciar.on("pointerdown",()=>{  
-            this.scene.isVisible('Tutorial');
             this.scene.start('Name');
         })
     

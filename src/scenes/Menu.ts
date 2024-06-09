@@ -29,12 +29,12 @@ export class Menu extends Phaser.Scene{
 
         iniciar.on("pointerdown", () => {
             this.MenuMusic.stop();
-            this.scene.launch('Tutorial');
+            this.scene.start('Tutorial');
         });
 
         rank.on("pointerdown", () => {
             this.MenuMusic.stop();
-            this.scene.launch('Ranking');
+            this.scene.start('Ranking');
         });
 
     }
