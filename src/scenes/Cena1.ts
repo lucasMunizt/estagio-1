@@ -1,5 +1,5 @@
 import { Vector } from "matter";
-import { saveScore } from './firebaseconfig';
+import { saveScore } from '../config/firebaseconfig';
 import { addDoc, collection } from 'firebase/firestore';
 import { Name } from "./Name";
 
@@ -67,7 +67,7 @@ export class Cena1 extends Phaser.Scene {
         this.load.image('ruby', './assets/character/ruby.png');
         this.load.image('enemy', './assets/character/spiky.png');
         this.load.spritesheet('estrela', './assets/character/coin.png', { frameWidth: 16, frameHeight: 16 });
-        this.load.audio('menuMusic', './assets/music/cena1.mp3');
+        this.load.audio('cena1', './assets/music/cena1.mp3');
         this.load.spritesheet('monstro', './assets/character/wolfR.png', { frameWidth: 48, frameHeight: 60 }); //48,75
         this.load.spritesheet('monstroL', './assets/character/wolfL.png', { frameWidth: 48, frameHeight: 60 }); //48,75
         
@@ -101,11 +101,11 @@ export class Cena1 extends Phaser.Scene {
         })
         this.playerPreviousY = this.player.y;
 
-        /*  this.MenuMusic = this.sound.add('menuMusic');
+          this.MenuMusic = this.sound.add('cena1');
            this.MenuMusic.play({
                volume:0.2,
                loop:true
-           });*/
+           });
 
 
         this.anims.create({
@@ -359,7 +359,7 @@ export class Cena1 extends Phaser.Scene {
     }
 
     handleEnemyPlatformCollision(enemy: Phaser.Physics.Arcade.Sprite) {
-        enemy.setVelocityX(enemy.body.velocity.x * -1); // Inverte a direção horizontal
+       // enemy.setVelocityX(enemy.body.velocity.x * -1); // Inverte a direção horizontal
     }
 
    
@@ -438,6 +438,7 @@ export class Cena1 extends Phaser.Scene {
         this.scene.launch('Gameover')
         this.scene.pause();
         this.resetTimer();
+        this.MenuMusic.stop();
        saveScore(this.score,this.name.getName);
     }
 

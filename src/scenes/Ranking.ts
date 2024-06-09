@@ -1,4 +1,4 @@
-import{getScores}  from './firebaseconfig'
+import{getScores}  from '../config/firebaseconfig'
 export class Ranking extends Phaser.Scene{
 
     constructor(){
@@ -6,13 +6,13 @@ export class Ranking extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('nomeimg', 'assets/image/ranktela.png');
+        this.load.image('rankimg', 'assets/image/ranktela.png');
        this.load.image('voltar', 'assets/image/voltar.png');
         
     }
 
     async create() {
-        const nomeimg = this.add.image(600, 350, 'nomeimg');
+        const rankimg = this.add.image(600, 350, 'rankimg');
         const voltar2 = this.add.image(600, 570, 'voltar');
 
         // Obter os scores

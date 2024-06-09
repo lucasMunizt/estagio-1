@@ -29,6 +29,7 @@ export class Name extends Phaser.Scene {
         this.nameInput.style.fontSize = '16px';
         this.nameInput.style.border = 'none';
         this.nameInput.style.borderRadius = '6px';
+        this.nameInput.maxLength = 10;
 
         // Adiciona o elemento input ao corpo do documento
         document.body.appendChild(this.nameInput);
