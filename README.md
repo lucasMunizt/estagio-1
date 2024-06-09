@@ -1,10 +1,10 @@
 # `<A Fuga>`
 
-* Link do jogo:
+* Link do jogo: <a>https://estagio-1.vercel.app/</a>
 
 ## Motivação
 
-Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.Um jogo onde um bandido tentar escapa da policia passando pelos obstáculos.   
+Quando era criança, costumava jogar o jogo "Fogo e Água", o qual me serviu de inspiração para o desenvolvimento de um jogo de plataforma.Um jogo onde um homem tentar capturar a maior quantidade de moedas, enquanto desvia dos obstáculos e tentar concluir no tempo limite .  
 
 ## Objetivo
 
@@ -25,7 +25,6 @@ DESCREVA AS FASES DO JOGO.
 | Fases | Descrição |
 | ----- | ----------- |
 | 1     | Capitar a maior quantidade de score no menor tempo. |
-| 2     | Durante a segunda fase será no mesmo mapa na primeira mas com o tempo menor com valor de cada score diferente. |
 
 ## Esquema de Pontuação
 
@@ -41,11 +40,14 @@ O jogo possuirá moedas espalhadas pelas fases, e no final possuirá um ranking.
 3. Créditos
 
 ## Protótipos de Tela
+![Captura de tela 2024-06-03 153252](https://github.com/lucasMunizt/estagio-1/assets/87603728/a6573a3b-ca84-4ded-971e-666965ff9503)
 
-Menu inicial -> Tutorial -> Adiciona nome -> Fase -> Final -> Placa -> Menu inicial 
 
 ## Tecnologias e Ferramentas utilizadas
 
 1. JavaScript
 2. Phaser 3
 3. TypeScript
+4. Figma
+5. Vercel
+6. Firebase
