@@ -375,9 +375,8 @@ export class Cena1 extends Phaser.Scene {
         if (valQueda >= 845 && valQueda <= 850) {
             this.vida -= 50
             this.setVidan()
-            //console.log("a: ",this.vida)
         }
-        //console.log("Altura da queda y: ",a );
+
     }
 
     setVidan() {

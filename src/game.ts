@@ -8,7 +8,7 @@ import { Ranking } from "./scenes/Ranking";
 const config = {
   type: Phaser.CANVAS,
  // auto
-  backgroundColor: "#125555",
+  backgroundColor: "#6998A1",
   width: 1200,
   height: 640,
   scene: [Menu,Tutorial,Ranking,Name,Cena1,Gameover],
